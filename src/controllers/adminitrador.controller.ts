@@ -19,6 +19,7 @@ import {
   response,
   HttpErrors,
 } from '@loopback/rest';
+import { Llaves } from '../config/llaves';
 import { Administrador, Credenciales } from '../models';
 import { AdministradorRepository } from '../repositories';
 import { AutenticacionService } from '../services';
@@ -59,7 +60,7 @@ export class AdminitradorController {
     let destino = administrador.correo;
     let asunto = 'Registro en la plataforma';
     let contenido = `Hola ${administrador.nombre}, su usuario es: ${administrador.correo} y su contraseña es: ${clave}`;
-    fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+    fetch(`${Llaves.urlServicioCorreo}/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
       .then((data: any) => {
         console.log(data);
       });
