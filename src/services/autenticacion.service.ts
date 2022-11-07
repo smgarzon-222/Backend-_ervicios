@@ -3,6 +3,7 @@ import { repository } from '@loopback/repository';
 import { AdministradorRepository } from '../repositories';
 const generador = require('password-generator');
 const cryptoJS = require('crypto-js');
+const jwt = require('jsonwebtoken');
 
 @injectable({ scope: BindingScope.TRANSIENT })
 export class AutenticacionService {

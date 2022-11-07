@@ -18,23 +18,23 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
-import {Administrador} from '../models';
-import {AdministradorRepository} from '../repositories';
+import { Administrador, Credenciales } from '../models';
+import { AdministradorRepository } from '../repositories';
 import { AutenticacionService } from '../services';
 const fetch = require('node-fetch');
 
 export class AdminitradorController {
   constructor(
     @repository(AdministradorRepository)
-    public administradorRepository : AdministradorRepository,
+    public administradorRepository: AdministradorRepository,
     @service(AutenticacionService)
-    public servicioAutenticacion : AutenticacionService
-  ) {}
+    public servicioAutenticacion: AutenticacionService
+  ) { }
 
   @post('/administradors')
   @response(200, {
     description: 'Administrador model instance',
-    content: {'application/json': {schema: getModelSchemaRef(Administrador)}},
+    content: { 'application/json': { schema: getModelSchemaRef(Administrador) } },
   })
   async create(
     @requestBody({
@@ -62,14 +62,29 @@ export class AdminitradorController {
       .then((data: any) => {
         console.log(data);
       });
-      return p;
-  
+    return p;
+
   }
+
+  @post('/administradors/identificar')
+  @response(200, {
+    description: 'Identificación de administrador'
+  })
+  async identificar(
+    @requestBody() creds: Credenciales
+  ) {
+    let p = await this.servicioAutenticacion.IdentificarAdministrador(creds.usuario, creds.clave);
+  }
+
+
+
+
+
 
   @get('/administradors/count')
   @response(200, {
     description: 'Administrador model count',
-    content: {'application/json': {schema: CountSchema}},
+    content: { 'application/json': { schema: CountSchema } },
   })
   async count(
     @param.where(Administrador) where?: Where<Administrador>,
@@ -84,7 +99,7 @@ export class AdminitradorController {
       'application/json': {
         schema: {
           type: 'array',
-          items: getModelSchemaRef(Administrador, {includeRelations: true}),
+          items: getModelSchemaRef(Administrador, { includeRelations: true }),
         },
       },
     },
@@ -98,13 +113,13 @@ export class AdminitradorController {
   @patch('/administradors')
   @response(200, {
     description: 'Administrador PATCH success count',
-    content: {'application/json': {schema: CountSchema}},
+    content: { 'application/json': { schema: CountSchema } },
   })
   async updateAll(
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Administrador, {partial: true}),
+          schema: getModelSchemaRef(Administrador, { partial: true }),
         },
       },
     })
@@ -119,13 +134,13 @@ export class AdminitradorController {
     description: 'Administrador model instance',
     content: {
       'application/json': {
-        schema: getModelSchemaRef(Administrador, {includeRelations: true}),
+        schema: getModelSchemaRef(Administrador, { includeRelations: true }),
       },
     },
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Administrador, {exclude: 'where'}) filter?: FilterExcludingWhere<Administrador>
+    @param.filter(Administrador, { exclude: 'where' }) filter?: FilterExcludingWhere<Administrador>
   ): Promise<Administrador> {
     return this.administradorRepository.findById(id, filter);
   }
@@ -139,7 +154,7 @@ export class AdminitradorController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Administrador, {partial: true}),
+          schema: getModelSchemaRef(Administrador, { partial: true }),
         },
       },
     })
