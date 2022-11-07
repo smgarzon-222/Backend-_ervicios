@@ -49,7 +49,21 @@ export class AdminitradorController {
     })
     administrador: Omit<Administrador, 'id'>,
   ): Promise<Administrador> {
-    return this.administradorRepository.create(administrador);
+
+    let clave = this.servicioAutenticacion.GenerarClave();
+    let cifrada = this.servicioAutenticacion.CifrarClave(clave);
+    administrador.clave = cifrada;
+    let p = await this.administradorRepository.create(administrador);
+
+    let destino = administrador.correo;
+    let asunto = 'Registro en la plataforma';
+    let contenido = `Hola ${administrador.nombre}, su usuario es: ${administrador.correo} y su contraseña es: ${clave}`;
+    fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+      .then((data: any) => {
+        console.log(data);
+      });
+      return p;
+  
   }
 
   @get('/administradors/count')
