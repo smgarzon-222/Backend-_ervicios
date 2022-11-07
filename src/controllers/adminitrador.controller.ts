@@ -21,6 +21,7 @@ import {
 import {Administrador} from '../models';
 import {AdministradorRepository} from '../repositories';
 import { AutenticacionService } from '../services';
+const fetch = require('node-fetch');
 
 export class AdminitradorController {
   constructor(
