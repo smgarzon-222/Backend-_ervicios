@@ -1,7 +1,7 @@
 import { injectable, /* inject, */ BindingScope } from '@loopback/core';
 import { repository } from '@loopback/repository';
 import { Llaves } from '../config/llaves';
-import {Administrador} from '../models';
+import { Administrador } from '../models';
 import { AdministradorRepository } from '../repositories';
 const generador = require('password-generator');
 const cryptoJS = require('crypto-js');
@@ -59,12 +59,12 @@ export class AutenticacionService {
 
   ValidarTokenJWT(token: string) {
     try {
-    let datos = jwt.verify(token, Llaves.llaveJWT);
-    return datos;
+      let datos = jwt.verify(token, Llaves.llaveJWT);
+      return datos;
     } catch {
-    return false;
+      return false;
     }
-    }
+  }
 
 
 
